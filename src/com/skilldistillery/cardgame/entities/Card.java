@@ -25,9 +25,8 @@ private Rank aRank;
 	this.aRank = theRank;
 	this.aSuit = theSuit;
 	}
-	public int getValue(String card){
-		int numValOfCard = Integer.parseInt(card);
-		return numValOfCard;
+	public int getValue(){
+		return aRank.getValue();
 	}
 	@Override
 	public int hashCode() {

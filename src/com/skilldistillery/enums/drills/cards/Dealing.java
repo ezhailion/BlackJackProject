@@ -29,7 +29,7 @@ public class Dealing {
 		int numOfCards = dealer.nextInt();
 		dealer.nextLine();
 
-		if (numOfCards > 52) {
+		if (numOfCards > aDeck.checkDeckSize()) {
 			System.err.println("Don't be ridiculous!");
 		} else {
 			for (int i = 0; i < numOfCards; i++) {

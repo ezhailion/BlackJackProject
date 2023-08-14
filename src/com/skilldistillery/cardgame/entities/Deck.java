@@ -19,12 +19,18 @@ public class Deck {
 		}
 	}
 
+	public int cardsLeftInDeck() {
+		int cardsLeft = checkDeckSize();
+		return cardsLeft;
+	}
 	public int checkDeckSize() {
 		return deckOfCards.size();
 	}
 
 	public Card dealCard() {
-		return deckOfCards.remove(0);
+		Card cardToDeal = deckOfCards.remove(0);
+		
+		return cardToDeal;
 	}
 
 	public void shuffleDeck() {

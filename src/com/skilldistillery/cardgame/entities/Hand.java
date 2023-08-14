@@ -1,9 +1,40 @@
 package com.skilldistillery.cardgame.entities;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public abstract class Hand {
-	List<Card> hand;
-	
-	public abstract void aMethod();
+	protected List<Card> handOfCards = new ArrayList<>();
+
+	public Hand() {
+		List<Card> handOfCards;
+	}
+
+
+	public void addCard(Card card) {
+		handOfCards.add(card);
+	}
+
+	public void seeHand() {
+		for (Card card : handOfCards) {
+			System.out.println(card);
+		}
+	}
+
+	abstract int needHandValue();
+
+	public List<Card> getHandOfCards() {
+		return handOfCards;
+	}
+
+	public void setHandOfCards(List<Card> handOfCards) {
+		this.handOfCards = handOfCards;
+	}
+
+	@Override
+	public String toString() {
+		return "Hand [handOfCards=" + handOfCards + ", needHandValue()=" + needHandValue() + ", getHandOfCards()="
+				+ getHandOfCards() + ", getClass()=" + getClass() + ", hashCode()=" + hashCode() + ", toString()="
+				+ super.toString() + "]";
+	}
 }
