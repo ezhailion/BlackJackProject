@@ -33,8 +33,10 @@ public abstract class Hand {
 
 	@Override
 	public String toString() {
-		return "Hand [handOfCards=" + handOfCards + ", needHandValue()=" + needHandValue() + ", getHandOfCards()="
-				+ getHandOfCards() + ", getClass()=" + getClass() + ", hashCode()=" + hashCode() + ", toString()="
-				+ super.toString() + "]";
+		StringBuilder builder = new StringBuilder();
+		builder.append("Hand [handOfCards=");
+		builder.append(handOfCards);
+		builder.append("]");
+		return builder.toString();
 	}
 }

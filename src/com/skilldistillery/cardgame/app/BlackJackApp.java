@@ -32,11 +32,15 @@ public class BlackJackApp {
 			sc.nextLine();
 			playerTurnChoice(gameInput);
 			while (gameInput == 1) {
+				if(((BlackJackHand) player.getHand()).isWin() || ((BlackJackHand) player.getHand()).isBust()) {
+					break;
+				}
 				gameMenu();
 				gameInput = sc.nextInt();
 				sc.nextLine();
 				playerTurnChoice(gameInput);
 			}
+			pickWinner();
 		}
 
 	}
@@ -60,7 +64,7 @@ public class BlackJackApp {
 		dealer.getaDeck().dealCard(player.getHand());
 		player.showHand();
 		dealer.getaDeck().dealCard(dealer.getHand());
-		System.out.println("Dealer's hand: [First card face down");
+		System.out.println("Dealer's hand: [First card face down]");
 		dealer.getaDeck().dealCard(player.getHand());
 		player.showHand();
 		System.out.println();
@@ -95,6 +99,18 @@ public class BlackJackApp {
 				System.out.println("Dealer has a perfect 21.");
 				break;
 			}
+		}
+	}
+	private void pickWinner() {
+		int dealerHandVal = ((BlackJackHand)dealer.getHand()).needHandValue();
+		int playerHandVal = ((BlackJackHand)player.getHand()).needHandValue();
+		
+		if(dealerHandVal == playerHandVal ) {
+			System.out.println("Draw!");
+		} else if(playerHandVal > dealerHandVal && !((BlackJackHand)player.getHand()).isBust() || ((BlackJackHand)dealer.getHand()).isBust()){
+			System.out.println("You win!" + player.getHand());
+		}else {
+			System.out.println("Dealer wins. " + dealer.getHand());
 		}
 	}
 }
