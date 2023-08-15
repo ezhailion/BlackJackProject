@@ -32,6 +32,9 @@ public class Deck {
 		
 		return cardToDeal;
 	}
+	public void dealCard(Hand hand) {
+		hand.handOfCards.add(deckOfCards.remove(0));
+	}
 
 	public void shuffleDeck() {
 		Collections.shuffle(deckOfCards);

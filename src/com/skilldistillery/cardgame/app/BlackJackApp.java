@@ -4,6 +4,7 @@ import java.util.Scanner;
 
 import com.skilldistillery.cardgame.entities.BlackJackHand;
 import com.skilldistillery.cardgame.entities.Dealer;
+import com.skilldistillery.cardgame.entities.Deck;
 import com.skilldistillery.cardgame.entities.Player;
 
 public class BlackJackApp {
@@ -18,23 +19,23 @@ public class BlackJackApp {
 	}
 
 	public void launch() {
-		BlackJackHand dealerHand = ((BlackJackHand) (dealer.getHand()));
-		BlackJackHand playerHand = ((BlackJackHand) (player.getHand()));
 		int startingInput;
 		int gameInput;
 		showMenu();
 		startingInput = sc.nextInt();
+		sc.nextLine();
 		if (startingInput == 1) {
+			dealer.getaDeck().shuffleDeck();
 			makeStartingHands();
-			System.out.println(playerHand.getHandOfCards());
 			gameMenu();
 			gameInput = sc.nextInt();
-			playerTurnChoice(gameInput, playerHand, dealerHand);
-					while (gameInput == 1) {
-						gameMenu();
-						gameInput = sc.nextInt();
-
-				playerTurnChoice(gameInput, playerHand, dealerHand);
+			sc.nextLine();
+			playerTurnChoice(gameInput);
+			while (gameInput == 1) {
+				gameMenu();
+				gameInput = sc.nextInt();
+				sc.nextLine();
+				playerTurnChoice(gameInput);
 			}
 		}
 
@@ -55,40 +56,45 @@ public class BlackJackApp {
 	}
 
 	private void makeStartingHands() {
-		for (int i = 0; i == 2; i++) {
-			player.addCard(dealer.dealCard());
-			player.displayHand();
 
-			dealer.addCard(dealer.dealCard());
-			dealer.displayDealerHand();
-		}
+		dealer.getaDeck().dealCard(player.getHand());
+		player.showHand();
+		dealer.getaDeck().dealCard(dealer.getHand());
+		System.out.println("Dealer's hand: [First card face down");
+		dealer.getaDeck().dealCard(player.getHand());
+		player.showHand();
+		System.out.println();
+		dealer.getaDeck().dealCard(dealer.getHand());
+		dealer.displayDealerHand();
 	}
 
-
-	private void playerTurnChoice(int input, BlackJackHand playerHand, BlackJackHand dealerHand) {
+	private void playerTurnChoice(int input) {
 		if (input == 1) {
-			playerHand.addCard(dealer.dealCard());
-			if (playerHand.isBust()) {
+			dealer.getaDeck().dealCard(player.getHand());
+			player.showHand();
+			if (((BlackJackHand) player.getHand()).isBust()) {
 				System.out.println("Sorry! You bust!");
-			} else if (playerHand.isWin()) {
+			} else if (((BlackJackHand) player.getHand()).isWin()) {
 				System.out.println("You win with a perfect 21!");
-			} else {
-				dealerTurn(dealerHand);
 			}
+		} else if (input == 2) {
+			dealerTurn();
 		}
 
 	}
 
-	private void dealerTurn(BlackJackHand dealerHand) {
-		dealerHand.addCard(dealer.dealCard());
-		if (dealerHand.isBust()) {
-			System.out.println("Dealer has busted.");
-		}
-		if (dealerHand.isWin()) {
-			System.out.println("Dealer has a perfect 21.");
-		}
-		if (dealerHand.needHandValue() < 17) {
-			dealerHand.addCard(dealer.dealCard());
+	private void dealerTurn() {
+		while (((BlackJackHand) dealer.getHand()).needHandValue() < 17) {
+			dealer.getHand().addCard(dealer.dealCard());
+			dealer.showHand();
+			if (((BlackJackHand) dealer.getHand()).isBust()) {
+				System.out.println("Dealer has busted.");
+				break;
+			}
+			if (((BlackJackHand) dealer.getHand()).isWin()) {
+				System.out.println("Dealer has a perfect 21.");
+				break;
+			}
 		}
 	}
 }

@@ -16,11 +16,8 @@ public class Player {
 	public void addCard(Card card) {
 		hand.addCard(card);
 	}
-	public void displayHand() {
-		List<Card> playerHand = hand.getHandOfCards();
-		for(int i = 1; i < playerHand.size(); i++) {
-			System.out.println(playerHand.get(i));
-		}
+	public void showHand() {
+		System.out.print("Player's hand: " + hand + " " + ((BlackJackHand) getHand()).needHandValue() + "\n");
 	}
 
 	@Override

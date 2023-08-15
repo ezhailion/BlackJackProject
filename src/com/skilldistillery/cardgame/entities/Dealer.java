@@ -27,11 +27,16 @@ public class Dealer extends Player {
 		return aDeck.checkDeckSize();
 	}
 	public void displayDealerHand() {
-		List<Card> dealerHand = hand.getHandOfCards();
-		System.out.print("Dealer's hand: [First card face down");
-		for(int i = 1; i < dealerHand.size(); i++) {
-			System.out.print(", " + dealerHand.get(i));
-		}
-		System.out.println("]");
+		System.out.println("Dealer's hand: [First card face down, " + hand.getHandOfCards().get(1) + "]");
 	}
+	public void showHand() {
+		System.out.println("Dealer's hand: " + hand + " " + ((BlackJackHand) getHand()).needHandValue() + "\n");
+	}
+	public Deck getaDeck() {
+		return aDeck;
+	}
+	public void setaDeck(Deck aDeck) {
+		this.aDeck = aDeck;
+	}
+	
 }
