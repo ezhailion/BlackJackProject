@@ -23,15 +23,17 @@ public class Deck {
 		int cardsLeft = checkDeckSize();
 		return cardsLeft;
 	}
+
 	public int checkDeckSize() {
 		return deckOfCards.size();
 	}
 
 	public Card dealCard() {
 		Card cardToDeal = deckOfCards.remove(0);
-		
+
 		return cardToDeal;
 	}
+
 	public void dealCard(Hand hand) {
 		hand.handOfCards.add(deckOfCards.remove(0));
 	}

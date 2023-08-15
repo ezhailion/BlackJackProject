@@ -32,7 +32,7 @@ public class BlackJackApp {
 			sc.nextLine();
 			playerTurnChoice(gameInput);
 			while (gameInput == 1) {
-				if(((BlackJackHand) player.getHand()).isWin() || ((BlackJackHand) player.getHand()).isBust()) {
+				if (((BlackJackHand) player.getHand()).isWin() || ((BlackJackHand) player.getHand()).isBust()) {
 					break;
 				}
 				gameMenu();
@@ -101,15 +101,17 @@ public class BlackJackApp {
 			}
 		}
 	}
+
 	private void pickWinner() {
-		int dealerHandVal = ((BlackJackHand)dealer.getHand()).needHandValue();
-		int playerHandVal = ((BlackJackHand)player.getHand()).needHandValue();
-		
-		if(dealerHandVal == playerHandVal ) {
+		int dealerHandVal = ((BlackJackHand) dealer.getHand()).needHandValue();
+		int playerHandVal = ((BlackJackHand) player.getHand()).needHandValue();
+
+		if (dealerHandVal == playerHandVal) {
 			System.out.println("Draw!");
-		} else if(playerHandVal > dealerHandVal && !((BlackJackHand)player.getHand()).isBust() || ((BlackJackHand)dealer.getHand()).isBust()){
+		} else if (playerHandVal > dealerHandVal && !((BlackJackHand) player.getHand()).isBust()
+				|| ((BlackJackHand) dealer.getHand()).isBust()) {
 			System.out.println("You win!" + player.getHand());
-		}else {
+		} else {
 			System.out.println("Dealer wins. " + dealer.getHand());
 		}
 	}
