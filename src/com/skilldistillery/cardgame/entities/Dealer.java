@@ -8,7 +8,9 @@ public class Dealer extends Player {
 	public Dealer() {
 		super();
 	}
-
+	public void getNewDeck() {
+		aDeck = new Deck();
+	}
 	public void play() {
 		Deck aDeck = new Deck();
 		System.out.println(aDeck.checkDeckSize());
@@ -32,10 +34,10 @@ public class Dealer extends Player {
 	}
 
 	public void displayDealerHand() {
-		System.out.println("Dealer's hand: [First card face down, " + hand.getHandOfCards().get(1) + "]");
+		System.out.println("Dealer's hand: [First card face down, " + hand.getHandOfCards().get(1) + "] " + hand.getHandOfCards().get(1).getValue());
 	}
 
-	public void showHand() {
+	public void showDHand() {
 		System.out.println("Dealer's hand: " + hand + " " + ((BlackJackHand) getHand()).needHandValue() + "\n");
 	}
 

@@ -10,7 +10,6 @@ public abstract class Hand {
 		List<Card> handOfCards;
 	}
 
-
 	public void addCard(Card card) {
 		handOfCards.add(card);
 	}

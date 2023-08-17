@@ -11,6 +11,10 @@ public class BlackJackApp {
 	private Player player = new Player();
 	private Dealer dealer = new Dealer();
 	protected Scanner sc = new Scanner(System.in);
+	private int startingInput;
+	private int gameInput;
+	private boolean running = true;
+	private boolean bjRunning = true;
 
 	public static void main(String[] args) {
 		// TODO Auto-generated method stub
@@ -19,28 +23,22 @@ public class BlackJackApp {
 	}
 
 	public void launch() {
-		int startingInput;
-		int gameInput;
-		showMenu();
-		startingInput = sc.nextInt();
-		sc.nextLine();
-		if (startingInput == 1) {
-			dealer.getaDeck().shuffleDeck();
-			makeStartingHands();
-			gameMenu();
-			gameInput = sc.nextInt();
+
+		while (bjRunning) {
+			showMenu();
+			startingInput = sc.nextInt();
 			sc.nextLine();
-			playerTurnChoice(gameInput);
-			while (gameInput == 1) {
-				if (((BlackJackHand) player.getHand()).isWin() || ((BlackJackHand) player.getHand()).isBust()) {
-					break;
-				}
-				gameMenu();
-				gameInput = sc.nextInt();
-				sc.nextLine();
-				playerTurnChoice(gameInput);
+			if (startingInput == 1) {
+			running = true;
+				dealer.getaDeck().shuffleDeck();
+				makeStartingHands();
+				initialCheck();
+				playerTurnChoice();
+				dealerTurn();
+
+				pickWinner();
+				resetHands();
 			}
-			pickWinner();
 		}
 
 	}
@@ -67,39 +65,53 @@ public class BlackJackApp {
 		System.out.println("Dealer's hand: [First card face down]");
 		dealer.getaDeck().dealCard(player.getHand());
 		player.showHand();
-		System.out.println();
 		dealer.getaDeck().dealCard(dealer.getHand());
 		dealer.displayDealerHand();
 	}
 
-	private void playerTurnChoice(int input) {
-		if (input == 1) {
-			dealer.getaDeck().dealCard(player.getHand());
-			player.showHand();
-			if (((BlackJackHand) player.getHand()).isBust()) {
-				System.out.println("Sorry! You bust!");
-			} else if (((BlackJackHand) player.getHand()).isWin()) {
-				System.out.println("You win with a perfect 21!");
-			}
-		} else if (input == 2) {
-			dealerTurn();
-		}
+	private void playerTurnChoice() {
 
+		while (running) {
+			gameMenu();
+			gameInput = sc.nextInt();
+			sc.nextLine();
+			if (gameInput == 1) {
+				dealer.getaDeck().dealCard(player.getHand());
+				player.showHand();
+				if (((BlackJackHand) player.getHand()).isBust()) {
+					System.out.println("Sorry! You bust!");
+					running = false;
+					break;
+				}
+			} else if (gameInput == 2) {
+				System.out.println();
+				System.out.println();
+				player.showHand();
+				running = false;
+			}
+		}
 	}
 
 	private void dealerTurn() {
-		while (((BlackJackHand) dealer.getHand()).needHandValue() < 17) {
-			dealer.getHand().addCard(dealer.dealCard());
-			dealer.showHand();
-			if (((BlackJackHand) dealer.getHand()).isBust()) {
-				System.out.println("Dealer has busted.");
-				break;
-			}
-			if (((BlackJackHand) dealer.getHand()).isWin()) {
-				System.out.println("Dealer has a perfect 21.");
-				break;
-			}
+		boolean	on = true;
+		if (((BlackJackHand) player.getHand()).needHandValue() > 21) {
+			dealer.showDHand();
+			on = false;
 		}
+		while (on && ((BlackJackHand) dealer.getHand()).needHandValue() < 17 ) {
+				dealer.getHand().addCard(dealer.dealCard());
+				dealer.showDHand();
+				if (((BlackJackHand) dealer.getHand()).isBust()) {
+					System.out.println("Dealer has busted.");
+					on = false;
+					break;
+				}
+				if (((BlackJackHand) dealer.getHand()).isWin()) {
+					System.out.println("Dealer has a perfect 21.");
+					on = false;
+					break;
+				}
+			}
 	}
 
 	private void pickWinner() {
@@ -111,8 +123,29 @@ public class BlackJackApp {
 		} else if (playerHandVal > dealerHandVal && !((BlackJackHand) player.getHand()).isBust()
 				|| ((BlackJackHand) dealer.getHand()).isBust()) {
 			System.out.println("You win!" + player.getHand());
+			dealer.showDHand();
 		} else {
-			System.out.println("Dealer wins. " + dealer.getHand());
+			System.out.print("Dealer wins. " );
+			dealer.showDHand();
+			player.showHand();
+		}
+	}
+
+	private void initialCheck() {
+		if (((BlackJackHand) dealer.getHand()).isWin()) {
+			System.out.println("Dealer has a perfect 21!");
+			running = false;
+		} else if (((BlackJackHand) player.getHand()).isWin()) {
+			System.out.println("You have a perfect 21!");
+			running = false;
+		}
+	}
+
+	private void resetHands() {
+		player.getHand().getHandOfCards().removeAll(player.getHand().getHandOfCards());
+		dealer.getHand().getHandOfCards().removeAll(dealer.getHand().getHandOfCards());
+		if (dealer.deckSize() < 12) {
+			dealer.getNewDeck();
 		}
 	}
 }
