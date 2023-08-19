@@ -39,6 +39,10 @@ public class BlackJackApp {
 				pickWinner();
 				resetHands();
 			}
+			else {
+				bjRunning = false;
+				break;
+			}
 		}
 
 	}
